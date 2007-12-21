@@ -10,6 +10,7 @@ Source1:	%{name}-pl-man-pages.tar.bz2
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 Provides:	usineagaz = 0.1-0.beta1mdk
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %define _requires_exceptions perl(controllib.pl)\\|perl(file)
 
