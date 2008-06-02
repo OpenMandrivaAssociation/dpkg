@@ -32,7 +32,7 @@ dpkg-dev is not provided on your Mandriva Linux system.
 %configure2_5x \
     --enable-shared \
     --without-dselect \
-    --with-admindir=%{_localstatedir}/%{name}
+    --with-admindir=%{_localstatedir}/lib/%{name}
 
 %make
 
@@ -76,10 +76,10 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %dir %{_libdir}/%{name}/parsechangelog/debian
 %attr(0755,root,root) %{_sbindir}/*
 %dir %{_datadir}/%{name}
-%dir %{_localstatedir}/%{name}
+%dir %{_localstatedir}/lib/%{name}
 %{_datadir}/%{name}/cputable
 %{_datadir}/%{name}/ostable
-%{_localstatedir}/%{name}/*
+%{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
 %dir %{_sysconfdir}/%{name}/origins
 %config(noreplace) %{_sysconfdir}/%{name}/origins/debian
