@@ -1,7 +1,7 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.13.11
-Release:	%mkrel 2
+Release:	%mkrel 4
 License:	GPL
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
