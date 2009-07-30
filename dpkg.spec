@@ -1,7 +1,7 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.13.11
-Release:	%mkrel 4
+Version:	1.13.26
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -9,6 +9,7 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.bz2
 Source1:	%{name}-pl-man-pages.tar.bz2
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
+BuildRequires:	po4a
 Provides:	usineagaz = 0.1-0.beta1mdk
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
@@ -52,6 +53,8 @@ find %{buildroot} -name "md5sum*" -exec rm -f {} \;
 find %{buildroot}%{_mandir} -name "update-alternatives*" -exec rm -f {} \;
 
 %find_lang %name
+%find_lang dpkg-dev
+cat dpkg-dev.lang >> %name.lang
 
 %clean
 rm -rf %{buildroot}
@@ -61,18 +64,10 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_bindir}/822-date
 %attr(0755,root,root) %{_bindir}/dpkg*
 %dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/methods
 %dir %{_libdir}/%{name}/parsechangelog
-%dir %{_libdir}/%{name}/methods/disk
-%dir %{_libdir}/%{name}/methods/floppy
-%{_libdir}/%{name}/controllib.pl
+%{_libdir}/%{name}/*.pl
 %{_libdir}/%{name}/enoent
 %attr(0755,root,root) %{_libdir}/%{name}/mksplit
-%dir %{_libdir}/%{name}/methods/*/desc*
-%dir %{_libdir}/%{name}/methods/*/names
-%attr(0755,root,root) %dir %{_libdir}/%{name}/methods/*/install
-%attr(0755,root,root) %dir %{_libdir}/%{name}/methods/*/setup
-%attr(0755,root,root) %dir %{_libdir}/%{name}/methods/*/update
 %attr(0755,root,root) %dir %{_libdir}/%{name}/parsechangelog/debian
 %attr(0755,root,root) %{_sbindir}/*
 %dir %{_datadir}/%{name}
@@ -94,6 +89,5 @@ rm -rf %{buildroot}
 %lang(sv) %{_mandir}/sv/man?/*
 %lang(fr) %{_mandir}/fr/man?/*
 %lang(ru) %{_mandir}/ru/man?/*
-%lang(es) %{_mandir}/es/man?/*
-%lang(pt_BR) %{_mandir}/pt_BR/man?/*
+%lang(hu) %{_mandir}/hu/man?/*
 
