@@ -7,6 +7,7 @@ Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.bz2
 Source1:	%{name}-pl-man-pages.tar.bz2
+Patch0:		%name-format-fix.patch
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 BuildRequires:	po4a
@@ -27,6 +28,7 @@ dpkg-dev is not provided on your Mandriva Linux system.
 %prep
 
 %setup -q
+%patch0 -p0
 
 %build
 
