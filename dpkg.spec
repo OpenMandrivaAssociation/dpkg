@@ -1,6 +1,6 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.13.26
+Version:	1.15.3.1
 Release:	%mkrel 1
 License:	GPL
 Group:		System/Configuration/Packaging
