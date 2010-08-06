@@ -3,7 +3,7 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.15.5.6
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -12,6 +12,7 @@ Source1:	%{name}-pl-man-pages.tar.bz2
 Patch0:		%name-format-fix.patch
 Patch1:		fedora-fix-CVE-2010-0396-00.patch
 Patch2:		fedora-fix-CVE-2010-0396-01.patch
+Patch3:		gentoo-bug-289094.patch
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 BuildRequires:	po4a
@@ -41,6 +42,7 @@ This module provides dpkg functionalities.
 %patch0 -p0
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 
