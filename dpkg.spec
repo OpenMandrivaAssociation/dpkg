@@ -2,17 +2,15 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.15.5.6
-Release:	%mkrel 2
-License:	GPL
+Version:	1.15.8.4
+Release:	%mkrel 1
+License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.bz2
 Source1:	%{name}-pl-man-pages.tar.bz2
-Patch0:		%name-format-fix.patch
-Patch1:		fedora-fix-CVE-2010-0396-00.patch
-Patch2:		fedora-fix-CVE-2010-0396-01.patch
 Patch3:		gentoo-bug-289094.patch
+Patch4:		dpkg-1.15.8.4-fix-str-fmt.patch
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 BuildRequires:	po4a
@@ -37,15 +35,11 @@ BuildArch:      noarch
 This module provides dpkg functionalities.
 
 %prep
-
 %setup -q
-%patch0 -p0
-%patch1 -p1
-%patch2 -p1
 %patch3 -p1
+%patch4 -p0
 
 %build
-
 %configure2_5x \
     --enable-shared \
     --without-dselect \
@@ -81,7 +75,7 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_bindir}/dpkg*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/parsechangelog
-%attr(0755,root,root) %{_libdir}/%{name}/mksplit
+#%attr(0755,root,root) %{_libdir}/%{name}/mksplit
 %attr(0755,root,root) %dir %{_libdir}/%{name}/parsechangelog/debian
 %attr(0755,root,root) %{_sbindir}/*
 %dir %{_datadir}/%{name}
@@ -100,6 +94,11 @@ rm -rf %{buildroot}
 %lang(sv) %{_mandir}/sv/man?/*
 %lang(fr) %{_mandir}/fr/man?/*
 %lang(hu) %{_mandir}/hu/man?/*
+%lang(es) %{_mandir}/es/man?/*
+%{_includedir}/dpkg/*
+%{_mandir}/man3/*
+%{_libdir}/libdpkg.a
+%{_libdir}/pkgconfig/libdpkg.pc
 
 %files -n perl-Dpkg
 %defattr(-,root,root)
