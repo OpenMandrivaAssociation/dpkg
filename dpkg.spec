@@ -55,7 +55,7 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 bzip2 -dc %{SOURCE1} | tar xf - -C %{buildroot}%{_mandir}
-install -m 755 %{SOURCE2} %{buildroot}/%{_bindir}
+install -m 755 %{SOURCE2} %{buildroot}/%{_bindir}/debsign
 install -m 644 %{SOURCE3} %{buildroot}/%{_mandir}/man1
 
 # cleanup
