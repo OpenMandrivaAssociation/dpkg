@@ -3,12 +3,14 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.15.8.4
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.bz2
 Source1:	%{name}-pl-man-pages.tar.bz2
+Source2:	debsign.sh
+Source3:	debsign.1
 Patch3:		gentoo-bug-289094.patch
 Patch4:		dpkg-1.15.8.4-fix-str-fmt.patch
 BuildRequires:	gettext-devel
@@ -53,6 +55,8 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 bzip2 -dc %{SOURCE1} | tar xf - -C %{buildroot}%{_mandir}
+install -m 755 %{SOURCE2} %{buildroot}/%{_bindir}
+install -m 644 %{SOURCE3} %{buildroot}/%{_mandir}/man1
 
 # cleanup
 rm -fr %{buildroot}%{_datadir}/locale/en/
@@ -72,7 +76,7 @@ rm -rf %{buildroot}
 
 %files -f dpkg.lang
 %defattr(644,root,root,755)
-%attr(0755,root,root) %{_bindir}/dpkg*
+%attr(0755,root,root) %{_bindir}/d*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/parsechangelog
 #%attr(0755,root,root) %{_libdir}/%{name}/mksplit
@@ -85,7 +89,7 @@ rm -rf %{buildroot}
 %{_datadir}/dpkg/triplettable
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
-%{_mandir}/man1/dpkg*
+%{_mandir}/man1/d*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 %lang(de) %{_mandir}/de/man?/*
