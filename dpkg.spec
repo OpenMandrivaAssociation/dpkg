@@ -3,7 +3,7 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.15.8.4
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
