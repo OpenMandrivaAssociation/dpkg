@@ -2,8 +2,8 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.15.8.4
-Release:	%mkrel 3
+Version:	1.16.1.1
+Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -12,7 +12,6 @@ Source1:	%{name}-pl-man-pages.tar.bz2
 Source2:	debsign.sh
 Source3:	debsign.1
 Patch3:		gentoo-bug-289094.patch
-Patch4:		dpkg-1.15.8.4-fix-str-fmt.patch
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 BuildRequires:	po4a
@@ -39,7 +38,6 @@ This module provides dpkg functionalities.
 %prep
 %setup -q
 %patch3 -p1
-%patch4 -p0
 
 %build
 %configure2_5x \
@@ -67,26 +65,26 @@ rm -fr %{buildroot}/usr/share/doc
 find %{buildroot} -name "md5sum*" -exec rm -f {} \;
 find %{buildroot}%{_mandir} -name "update-alternatives*" -exec rm -f {} \;
 
-%find_lang %name
+%find_lang %{name}
 %find_lang dpkg-dev
-cat dpkg-dev.lang >> %name.lang
+cat dpkg-dev.lang >> %{name}.lang
 
 %clean
 rm -rf %{buildroot}
 
-%files -f dpkg.lang
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(0755,root,root) %{_bindir}/d*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/parsechangelog
-#%attr(0755,root,root) %{_libdir}/%{name}/mksplit
 %attr(0755,root,root) %dir %{_libdir}/%{name}/parsechangelog/debian
 %attr(0755,root,root) %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %dir %{_localstatedir}/lib/%{name}
 %{_datadir}/%{name}/cputable
 %{_datadir}/%{name}/ostable
-%{_datadir}/dpkg/triplettable
+%{_datadir}/%{name}/triplettable
+%{_datadir}/%{name}/*.mk
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
 %{_mandir}/man1/d*
