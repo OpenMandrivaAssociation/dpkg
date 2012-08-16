@@ -2,21 +2,19 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.16.1.1
+Version:	1.16.8
 Release:	%mkrel 1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
-Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.bz2
+Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source1:	%{name}-pl-man-pages.tar.bz2
 Source2:	debsign.sh
 Source3:	debsign.1
-Patch3:		gentoo-bug-289094.patch
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 BuildRequires:	po4a
 Provides:	usineagaz = 0.1-0.beta1mdk
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description
 This package contains the programs dpkg which used to handle the installation
@@ -28,21 +26,20 @@ to install the developers' package `dpkg-dev' as well as this one.
 dpkg-dev is not provided on your Mandriva Linux system.
 
 %package -n	perl-Dpkg
-Summary:        Package maintenance system for Debian Linux
-Group:          Development/Perl
-BuildArch:      noarch
+Summary:	Package maintenance system for Debian Linux
+Group:		Development/Perl
+BuildArch:	noarch
 
 %description -n	perl-Dpkg
 This module provides dpkg functionalities.
 
 %prep
 %setup -q
-%patch3 -p1
 
 %build
 %configure2_5x \
     --enable-shared \
-    --without-dselect \
+    --disable-dselect \
     --with-admindir=%{_localstatedir}/lib/%{name}
 
 %make
@@ -69,9 +66,6 @@ find %{buildroot}%{_mandir} -name "update-alternatives*" -exec rm -f {} \;
 %find_lang dpkg-dev
 cat dpkg-dev.lang >> %{name}.lang
 
-%clean
-rm -rf %{buildroot}
-
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(0755,root,root) %{_bindir}/d*
@@ -84,6 +78,7 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}/cputable
 %{_datadir}/%{name}/ostable
 %{_datadir}/%{name}/triplettable
+%{_datadir}/dpkg/abitable
 %{_datadir}/%{name}/*.mk
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
