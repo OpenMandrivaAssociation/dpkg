@@ -1,9 +1,13 @@
+%if %{_use_internal_dependency_generator}
+%define __noautoreq 'perl\\(controllib.pl\\)|perl\\(file\\)'
+%else
 %define _requires_exceptions perl(controllib.pl)\\|perl(file)
+%endif
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.16.8
-Release:	%mkrel 1
+Release:	2
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -14,7 +18,6 @@ Source3:	debsign.1
 BuildRequires:	gettext-devel
 BuildRequires:	zlib-devel
 BuildRequires:	po4a
-Provides:	usineagaz = 0.1-0.beta1mdk
 
 %description
 This package contains the programs dpkg which used to handle the installation
@@ -45,8 +48,6 @@ This module provides dpkg functionalities.
 %make
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std
 
 bzip2 -dc %{SOURCE1} | tar xf - -C %{buildroot}%{_mandir}
@@ -98,6 +99,5 @@ cat dpkg-dev.lang >> %{name}.lang
 %{_libdir}/pkgconfig/libdpkg.pc
 
 %files -n perl-Dpkg
-%defattr(-,root,root)
 %{perl_vendorlib}/Dpkg
 %{perl_vendorlib}/Dpkg.pm

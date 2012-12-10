@@ -1,5 +1,2 @@
 sources:
-  "debsign.1:"	3f8d430416f02aa7c1f0767aa27cc30d023d175c
-  "debsign.sh:"	b091cc4970932a7eb7124443a4371e694a33266e
-  "dpkg_1.16.8.tar.xz:"	b21724c9cd4a124cf2a1527303854136f849db74
-  "dpkg-pl-man-pages.tar.bz2:"	2dcb8d7367f407d2094d894353683c0015ea6709
+  "dpkg-pl-man-pages.tar.bz2": 2dcb8d7367f407d2094d894353683c0015ea6709
