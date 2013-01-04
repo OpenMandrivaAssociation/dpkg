@@ -1,0 +1,83 @@
+diff -ur dpkg-1.16.7.orig/man/update-alternatives.8 dpkg-1.16.7/man/update-alternatives.8
+--- dpkg-1.16.7.orig/man/update-alternatives.8	2012-06-30 09:21:47.000000000 +0200
++++ dpkg-1.16.7/man/update-alternatives.8	2012-07-07 00:38:09.628280915 +0200
+@@ -33,7 +33,7 @@
+ .SH DESCRIPTION
+ .B update\-alternatives
+ creates, removes, maintains and displays information about the symbolic
+-links comprising the Debian alternatives system.
++links comprising the Mandriva Linux alternatives system.
+ .PP
+ It is possible for several programs fulfilling the same or similar
+ functions to be installed on a single system at the same time.
+@@ -43,7 +43,7 @@
+ to make a good choice for an editor to invoke if the
+ user has not specified a particular preference.
+ .PP
+-Debian's alternatives system aims to solve this problem.
++Mandriva Linux's alternatives system aims to solve this problem.
+ A generic name in the filesystem is
+ shared by all files providing interchangeable functionality.
+ The alternatives system and the system administrator
+@@ -82,10 +82,10 @@
+ is called to update information about that file in the alternatives system.
+ .B update\-alternatives
+ is usually called from the
+-.B postinst
++.B post
+ (configure) or
+-.B prerm
+-(install) scripts in Debian packages.
++.B preun
++(install) scripts in Mandriva Linux packages.
+ .PP
+ It is often useful for a number of alternatives to be synchronized,
+ so that they are changed as a group; for example, when several versions
+@@ -189,7 +189,7 @@
+ .TP
+ administrative directory
+ A directory, by default
+-.IR /var/lib/dpkg/alternatives ,
++.IR /var/lib/rpm/alternatives ,
+ containing
+ .BR update\-alternatives '
+ state information.
+@@ -501,7 +501,7 @@
+ .RE
+ .
+ .SH BUGS
+-If you find a bug, please report it using the Debian bug-tracking system.
++If you find a bug, please report it using the Mandriva Linux bug-tracking system.
+ .PP
+ If you find any discrepancy between the operation of
+ .B update\-alternatives
+diff -ur dpkg-1.16.7.orig/utils/update-alternatives.c dpkg-1.16.7/utils/update-alternatives.c
+--- dpkg-1.16.7.orig/utils/update-alternatives.c	2012-06-30 09:21:47.000000000 +0200
++++ dpkg-1.16.7/utils/update-alternatives.c	2012-07-07 00:38:09.631281296 +0200
+@@ -68,7 +68,7 @@
+ static char *pass_opts[MAX_OPTS];
+ static int nb_opts = 0;
+ 
+-#define DPKG_TMP_EXT ".dpkg-tmp"
++#define DPKG_TMP_EXT ".rpm-tmp"
+ 
+ /*
+  * Functions.
+@@ -77,7 +77,7 @@
+ static void
+ version(void)
+ {
+-	printf(_("Debian %s version %s.\n"), PROGNAME, VERSION);
++	printf(_("Mandriva Linux %s version %s.\n"), PROGNAME, VERSION);
+ 	printf("\n");
+ 
+ 	printf(_(
+@@ -359,7 +359,7 @@
+ 	const char *basedir, *dpkg_basedir;
+ 	char *admindir;
+ 
+-	dpkg_basedir = getenv("DPKG_ADMINDIR");
++	dpkg_basedir = getenv("RPM_ADMINDIR");
+ 	if (dpkg_basedir)
+ 		basedir = dpkg_basedir;
+ 	else
