@@ -15,11 +15,13 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source1:	%{name}-pl-man-pages.tar.bz2
 Source2:	debsign.sh
 Source3:	debsign.1
-Patch0:         update-alternatives-1.16.8-mandriva.patch
+Patch0:		update-alternatives-1.16.8-mandriva.patch
 BuildRequires:	gettext-devel
-BuildRequires:	zlib-devel
 BuildRequires:	po4a
 BuildRequires:  pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(liblzma)
+BuildRequires:	bzip2-devel
 
 %description
 This package contains the programs dpkg which used to handle the installation
@@ -67,7 +69,10 @@ pushd dpkg
 %configure2_5x \
     --enable-shared \
     --disable-dselect \
-    --with-admindir=%{_localstatedir}/lib/%{name}
+    --with-admindir=%{_localstatedir}/lib/%{name} \
+    --with-zlib \
+    --with-bz2 \
+    --with-liblzma
 
 %make
 popd
