@@ -17,7 +17,7 @@ Source3:	debsign.1
 Patch0:		update-alternatives-1.16.8-mandriva.patch
 BuildRequires:	gettext-devel
 BuildRequires:	po4a
-BuildRequires:  pkgconfig(ncursesw)
+BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	bzip2-devel
@@ -66,8 +66,8 @@ CONFIGURE_TOP="$PWD"
 mkdir -p dpkg
 pushd dpkg
 %configure2_5x \
-	--enable-shared \
 	--disable-dselect \
+	--disable-install-info \
 	--disable-update-alternatives \
 	--with-admindir=%{_localstatedir}/lib/%{name} \
 	--with-zlib \
@@ -81,6 +81,9 @@ mkdir -p update-alternatives
 pushd update-alternatives
 CFLAGS="%{optflags} -Os" \
 %configure2_5x \
+	--disable-dselect \
+	--disable-install-info \
+	--disable-start-stop-daemon \
 	--with-admindir=%{_localstatedir}/lib/rpm/
 %make -C lib/compat
 %make -C utils/
