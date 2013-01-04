@@ -12,7 +12,6 @@ License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
-Source1:	%{name}-pl-man-pages.tar.bz2
 Source2:	debsign.sh
 Source3:	debsign.1
 Patch0:		update-alternatives-1.16.8-mandriva.patch
@@ -30,7 +29,7 @@ and removal of packages on a Debian system.
 In order to unpack and build Debian source packages you will need
 to install the developers' package `dpkg-dev' as well as this one.
 
-dpkg-dev is not provided on your Mandriva Linux system.
+dpkg-dev is not provided on your %{distribution} system.
 
 %package -n	perl-Dpkg
 Summary:	Package maintenance system for Debian Linux
@@ -67,12 +66,13 @@ CONFIGURE_TOP="$PWD"
 mkdir -p dpkg
 pushd dpkg
 %configure2_5x \
-    --enable-shared \
-    --disable-dselect \
-    --with-admindir=%{_localstatedir}/lib/%{name} \
-    --with-zlib \
-    --with-bz2 \
-    --with-liblzma
+	--enable-shared \
+	--disable-dselect \
+	--disable-update-alternatives \
+	--with-admindir=%{_localstatedir}/lib/%{name} \
+	--with-zlib \
+	--with-bz2 \
+	--with-liblzma
 
 %make
 popd
@@ -81,7 +81,7 @@ mkdir -p update-alternatives
 pushd update-alternatives
 CFLAGS="%{optflags} -Os" \
 %configure2_5x \
-    --with-admindir=%{_localstatedir}/lib/rpm/
+	--with-admindir=%{_localstatedir}/lib/rpm/
 %make -C lib/compat
 %make -C utils/
 popd
@@ -89,22 +89,10 @@ popd
 %install
 %makeinstall_std -C dpkg
 
-bzip2 -dc %{SOURCE1} | tar xf - -C %{buildroot}%{_mandir}
-install -m 755 %{SOURCE2} %{buildroot}/%{_bindir}/debsign
-install -m 644 %{SOURCE3} %{buildroot}/%{_mandir}/man1
+install -m755 %{SOURCE2} -D %{buildroot}%{_bindir}/debsign
+install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 
-# cleanup
-rm -fr %{buildroot}%{_datadir}/locale/en/
-rm -f %{buildroot}{%{_bindir},%{_sbindir}}/update-alternatives
-rm -r %{buildroot}%{_sysconfdir}/alternatives
-rm -fr %{buildroot}/usr/share/doc
-find %{buildroot} -name "md5sum*" -exec rm -f {} \;
-find %{buildroot}%{_mandir} -name "update-alternatives*" -exec rm -f {} \;
-
-%find_lang %{name}
-%find_lang dpkg-dev
-cat dpkg-dev.lang >> %{name}.lang
-
+%find_lang %{name} dpkg-dev %{name}.lang
 
 install -d -m755 %{buildroot}%{_sysconfdir}/alternatives
 install -d -m755 %{buildroot}%{_localstatedir}/lib/rpm/alternatives
@@ -117,7 +105,7 @@ install -m644 man/update-alternatives.8 -D %{buildroot}%{_mandir}/man8/update-al
 
 # I really doubt the actual usefulness of these..
 ln -s update-alternatives %{buildroot}%{_sbindir}/alternatives
-ln -sr %{buildroot}%{_localstatedir}/lib/rpm %{buildroot}%{_localstatedir}/lib/alternatives
+ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localstatedir}/lib/alternatives
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
