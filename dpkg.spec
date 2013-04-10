@@ -15,12 +15,13 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source2:	debsign.sh
 Source3:	debsign.1
 Patch0:		update-alternatives-1.16.8-mandriva.patch
-BuildRequires:	gettext-devel
+
 BuildRequires:	po4a
+BuildRequires:	bzip2-devel
+BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(zlib)
-BuildRequires:	pkgconfig(liblzma)
-BuildRequires:	bzip2-devel
 
 %description
 This package contains the programs dpkg which used to handle the installation
@@ -59,7 +60,7 @@ particular preference.
 
 %prep
 %setup -q
-%patch0 -p1 -b .rpmman~
+%apply_patches
 
 %build
 CONFIGURE_TOP="$PWD"
@@ -111,12 +112,11 @@ ln -s update-alternatives %{buildroot}%{_sbindir}/alternatives
 ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localstatedir}/lib/alternatives
 
 %files -f %{name}.lang
-%defattr(644,root,root,755)
-%attr(0755,root,root) %{_bindir}/d*
+%{_bindir}/d*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/parsechangelog
-%attr(0755,root,root) %dir %{_libdir}/%{name}/parsechangelog/debian
-%attr(0755,root,root) %{_sbindir}/*
+%dir %{_libdir}/%{name}/parsechangelog/debian
+%{_sbindir}/*
 %exclude %{_sbindir}/alternatives
 %exclude %{_sbindir}/update-alternatives
 %dir %{_datadir}/%{name}
@@ -156,3 +156,4 @@ ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localst
 %{_localstatedir}/lib/alternatives
 %dir %{_localstatedir}/lib/rpm/alternatives
 %ghost %{_localstatedir}/log/update-alternatives.log
+
