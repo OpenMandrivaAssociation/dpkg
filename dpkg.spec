@@ -6,15 +6,15 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.17.1
-Release:	5
+Version:	1.17.4
+Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source2:	debsign.sh
 Source3:	debsign.1
-Patch0:		update-alternatives-1.17.0-mandriva.patch
+Patch0:		update-alternatives-1.17.4-mandriva.patch
 
 BuildRequires:	po4a
 BuildRequires:	bzip2-devel
