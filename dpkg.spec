@@ -14,6 +14,7 @@ Url:		http://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source2:	debsign.sh
 Source3:	debsign.1
+Source4:	dpkg.rpmlintrc
 Patch0:		update-alternatives-1.17.4-mandriva.patch
 
 BuildRequires:	po4a
