@@ -56,7 +56,7 @@ index ed06680..0b540dc 100644
  version(void)
  {
 -	printf(_("Debian %s version %s.\n"), PROGNAME, VERSION);
-+	printf(_("OpenMandriva %s version %s.\n"), PROGNAME, VERSION);
++	printf(_("Moondrake %s version %s.\n"), PROGNAME, VERSION);
  	printf("\n");
  
  	printf(_(
