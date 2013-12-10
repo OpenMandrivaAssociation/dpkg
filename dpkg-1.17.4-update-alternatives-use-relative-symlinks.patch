@@ -1,0 +1,191 @@
+--- dpkg-1.17.4/utils/update-alternatives.c.relpath~	2013-12-10 14:46:24.091659082 +0100
++++ dpkg-1.17.4/utils/update-alternatives.c	2013-12-10 14:47:06.295574172 +0100
+@@ -27,6 +27,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <sys/wait.h>
++#include <sys/param.h>
+ 
+ #include <errno.h>
+ #include <stdarg.h>
+@@ -62,6 +63,7 @@ static const char *log_file = LOGDIR "/a
+ static int opt_skip_auto = 0;
+ static int opt_verbose = 0;
+ static int opt_force = 0;
++static int opt_absolute = 0;
+ 
+ #define MAX_OPTS 128
+ #define PUSH_OPT(a) if (nb_opts < MAX_OPTS) pass_opts[nb_opts++] = a;
+@@ -132,6 +134,8 @@ usage(void)
+ "                           in automatic mode (relevant for --config only)\n"
+ "  --verbose                verbose operation, more output.\n"
+ "  --quiet                  quiet operation, minimal output.\n"
++"  --absolute               use absolute paths for symlinks.\n"
++"  --relative               use absolute paths for symlinks (default).\n"
+ "  --help                   show this help message.\n"
+ "  --version                show the version.\n"
+ ));
+@@ -476,11 +480,125 @@ rename_mv(const char *src, const char *d
+ 	return true;
+ }
+ 
++/* thx to dracut-install.c where these two functions were swiped from! :) */
++static size_t dir_len(char const *file)
++{
++        size_t length;
++
++        if(!file)
++                return 0;
++
++        /* Strip the basename and any redundant slashes before it.  */
++        for (length = strlen(file)-1; 0 < length; length--)
++                if (file[length] == '/' && file[length-1] != '/')
++                        break;
++        return length;
++}
++
++static char *convert_abs_rel(const char *from, const char *target)
++{
++        /* we use the 4*MAXPATHLEN, which should not overrun */
++        char relative_from[MAXPATHLEN * 4];
++        char *realtarget = NULL;
++        char *target_dir_p = NULL, *realpath_p = NULL;
++        const char *realfrom = from;
++        size_t level = 0, fromlevel = 0, targetlevel = 0;
++        int l;
++        size_t i, rl, dirlen;
++        int ret;
++
++        target_dir_p = strdup(target);
++        if (!target_dir_p)
++                return strdup(from);
++
++        dirlen = dir_len(target_dir_p);
++        target_dir_p[dirlen] = '\0';
++        realpath_p = realpath(target_dir_p, NULL);
++
++        if (realpath_p == NULL) {
++                warning("convert_abs_rel(): target '%s' directory has no realpath.", target);
++                return strdup(from);
++        }
++
++        /* dir_len() skips double /'s e.g. //lib64, so we can't skip just one
++         * character - need to skip all leading /'s */
++        rl = strlen(target);
++        for (i = dirlen+1; i < rl; ++i)
++            if (target_dir_p[i] != '/')
++                break;
++
++        ret = asprintf(&realtarget, "%s/%s", realpath_p, &target_dir_p[i]);
++        if (ret < 0) {
++                error("Out of memory!");
++                exit(EXIT_FAILURE);
++        }
++        free(target_dir_p);
++
++        /* now calculate the relative path from <from> to <target> and
++           store it in <relative_from>
++         */
++        relative_from[0] = 0;
++        rl = 0;
++
++        /* count the pathname elements of realtarget */
++        for (targetlevel = 0, i = 0; realtarget[i]; i++)
++                if (realtarget[i] == '/')
++                        targetlevel++;
++
++        /* count the pathname elements of realfrom */
++        for (fromlevel = 0, i = 0; realfrom[i]; i++)
++                if (realfrom[i] == '/')
++                        fromlevel++;
++
++        /* count the pathname elements, which are common for both paths */
++        for (level = 0, i = 0; realtarget[i] && (realtarget[i] == realfrom[i]); i++)
++                if (realtarget[i] == '/')
++                        level++;
++
++        /* add "../" to the relative_from path, until the common pathname is
++           reached */
++        for (i = level; i < targetlevel; i++) {
++                if (i != level)
++                        relative_from[rl++] = '/';
++                relative_from[rl++] = '.';
++                relative_from[rl++] = '.';
++        }
++
++        /* set l to the next uncommon pathname element in realfrom */
++        for (l = 1, i = 1; i < level; i++)
++                for (l++; realfrom[l] && realfrom[l] != '/'; l++) ;
++
++        /* skip next '/' */
++	if (realfrom[l] == '/')
++		l++;
++
++        /* append the uncommon rest of realfrom to the relative_from path */
++        for (i = level; i <= fromlevel; i++) {
++                if (rl)
++                        relative_from[rl++] = '/';
++                while (realfrom[l] && realfrom[l] != '/')
++                        relative_from[rl++] = realfrom[l++];
++                l++;
++        }
++
++        relative_from[rl] = 0;
++
++        return strdup(relative_from);
++}
++
+ static void
+ checked_symlink(const char *filename, const char *linkname)
+ {
+-	if (symlink(filename, linkname))
+-		syserr(_("error creating symbolic link `%.255s'"), linkname);
++	if (opt_absolute) {
++		if (symlink(filename, linkname))
++			syserr(_("error creating absolute symbolic link for `%.255s"), linkname);
++	} else {
++		char *source = convert_abs_rel(filename, linkname);
++
++		if (symlink(source, linkname))
++			syserr(_("error creating relative symbolic link `%.255s' for `%.255s"), source, linkname);
++		free(source);
++	}
+ }
+ 
+ static void
+@@ -2542,6 +2660,16 @@ main(int argc, char **argv)
+ 			long prio;
+ 
+ 			set_action("install");
++			if (strcmp("--absolute", argv[i+1]) == 0) {
++				opt_absolute = 1;
++				i++;
++				PUSH_OPT(argv[i]);
++			} else if (strcmp("--relative", argv[i+1]) == 0) {
++				opt_absolute = 0;
++				i++;
++				PUSH_OPT(argv[i]);
++			}
++
+ 			if (MISSING_ARGS(4))
+ 				badusage(_("--install needs <link> <name> "
+ 				           "<path> <priority>"));
+@@ -2595,6 +2723,18 @@ main(int argc, char **argv)
+ 			   strcmp("--get-selections", argv[i]) == 0 ||
+ 			   strcmp("--set-selections", argv[i]) == 0) {
+ 			set_action(argv[i] + 2);
++		} else if (strcmp("--absolute", argv[i]) == 0) {
++			if (action == NULL ||
++					(action && strcmp(action, "install") != 0))
++				badusage(_("--absolute only allowed with --install"));
++		    	opt_absolute = 1;
++			i++;
++		} else if (strcmp("--relative", argv[i]) == 0) {
++			if (action == NULL ||
++					(action && strcmp(action, "install") != 0))
++				badusage(_("--relative only allowed with --install"));
++		    	opt_absolute = 0;
++			i++;
+ 		} else if (strcmp("--slave", argv[i]) == 0) {
+ 			char *slink, *sname, *spath;
+ 			struct slave_link *sl;
