@@ -70,7 +70,6 @@ mkdir -p dpkg
 pushd dpkg
 %configure2_5x \
 	--disable-dselect \
-	--disable-install-info \
 	--disable-update-alternatives \
 	--with-admindir=%{_localstatedir}/lib/%{name} \
 	--with-zlib \
