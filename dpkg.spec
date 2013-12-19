@@ -66,6 +66,18 @@ particular preference.
 
 %build
 CONFIGURE_TOP="$PWD"
+mkdir -p update-alternatives
+pushd update-alternatives
+CFLAGS="%{optflags} -Os" \
+%configure2_5x \
+	--disable-dselect \
+	--disable-install-info \
+	--disable-start-stop-daemon \
+	--with-admindir=%{_localstatedir}/lib/rpm/
+%make -C lib/compat
+%make -C utils/
+popd
+
 mkdir -p dpkg
 pushd dpkg
 %configure2_5x \
@@ -77,18 +89,6 @@ pushd dpkg
 	--with-liblzma
 
 %make
-popd
-
-mkdir -p update-alternatives
-pushd update-alternatives
-CFLAGS="%{optflags} -Os" \
-%configure2_5x \
-	--disable-dselect \
-	--disable-install-info \
-	--disable-start-stop-daemon \
-	--with-admindir=%{_localstatedir}/lib/rpm/
-%make -C lib/compat
-%make -C utils/
 popd
 
 %install
