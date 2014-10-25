@@ -1,5 +1,5 @@
 diff --git a/man/update-alternatives.8 b/man/update-alternatives.8
-index d771f12..b8cbd33 100644
+index bbb352f..c48f0dd 100644
 --- a/man/update-alternatives.8
 +++ b/man/update-alternatives.8
 @@ -33,7 +33,7 @@ update\-alternatives \- maintain symbolic links determining default commands
@@ -24,8 +24,8 @@ index d771f12..b8cbd33 100644
  .B postinst
  (configure) or
  .B prerm
--(install) scripts in Debian packages.
-+(install) scripts in OpenMandriva packages.
+-(remove and deconfigure) scripts in Debian packages.
++(remove and deconfigure) scripts in OpenMandriva packages.
  .PP
  It is often useful for a number of alternatives to be synchronized,
  so that they are changed as a group; for example, when several versions
@@ -39,10 +39,10 @@ index d771f12..b8cbd33 100644
  .BR update\-alternatives '
  state information.
 diff --git a/utils/update-alternatives.c b/utils/update-alternatives.c
-index ed06680..0b540dc 100644
+index f416bfd..38d7ae5 100644
 --- a/utils/update-alternatives.c
 +++ b/utils/update-alternatives.c
-@@ -68,7 +68,7 @@ static int opt_force = 0;
+@@ -70,7 +70,7 @@ static int opt_absolute = 0;
  static char *pass_opts[MAX_OPTS];
  static int nb_opts = 0;
  
@@ -51,16 +51,16 @@ index ed06680..0b540dc 100644
  
  /*
   * Functions.
-@@ -77,7 +77,7 @@ static int nb_opts = 0;
+@@ -79,7 +79,7 @@ static int nb_opts = 0;
  static void
  version(void)
  {
 -	printf(_("Debian %s version %s.\n"), PROGNAME, VERSION);
-+	printf(_("Moondrake %s version %s.\n"), PROGNAME, VERSION);
++	printf(_("OpenMandriva %s version %s.\n"), PROGNAME, VERSION);
  	printf("\n");
  
  	printf(_(
-@@ -361,7 +361,7 @@ admindir_init(void)
+@@ -365,7 +365,7 @@ admindir_init(void)
  	const char *basedir, *dpkg_basedir;
  	char *admindir;
  
