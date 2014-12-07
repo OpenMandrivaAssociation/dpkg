@@ -7,7 +7,7 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.17.20
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
