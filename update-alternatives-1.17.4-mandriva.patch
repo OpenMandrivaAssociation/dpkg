@@ -1,8 +1,7 @@
-diff --git a/man/update-alternatives.8 b/man/update-alternatives.8
-index bbb352f..c48f0dd 100644
---- a/man/update-alternatives.8
-+++ b/man/update-alternatives.8
-@@ -33,7 +33,7 @@ update\-alternatives \- maintain symbolic links determining default commands
+diff -Naur dpkg-1.18.4/man/update-alternatives.1 dpkg-1.18.4.tpg/man/update-alternatives.1
+--- dpkg-1.18.4/man/update-alternatives.1	2015-11-26 23:53:38.000000000 +0000
++++ dpkg-1.18.4.tpg/man/update-alternatives.1	2016-02-06 23:34:20.096383919 +0000
+@@ -33,7 +33,7 @@
  .SH DESCRIPTION
  .B update\-alternatives
  creates, removes, maintains and displays information about the symbolic
@@ -11,7 +10,7 @@ index bbb352f..c48f0dd 100644
  .PP
  It is possible for several programs fulfilling the same or similar
  functions to be installed on a single system at the same time.
-@@ -43,7 +43,7 @@ different editor, if desired, but makes it difficult for a program
+@@ -43,7 +43,7 @@
  to make a good choice for an editor to invoke if the
  user has not specified a particular preference.
  .PP
@@ -20,7 +19,7 @@ index bbb352f..c48f0dd 100644
  A generic name in the filesystem is
  shared by all files providing interchangeable functionality.
  The alternatives system and the system administrator
-@@ -85,7 +85,7 @@ is usually called from the
+@@ -85,7 +85,7 @@
  .B postinst
  (configure) or
  .B prerm
@@ -29,7 +28,7 @@ index bbb352f..c48f0dd 100644
  .PP
  It is often useful for a number of alternatives to be synchronized,
  so that they are changed as a group; for example, when several versions
-@@ -189,7 +189,7 @@ containing the symlinks.
+@@ -190,7 +190,7 @@
  .TP
  administrative directory
  A directory, by default
@@ -38,20 +37,28 @@ index bbb352f..c48f0dd 100644
  containing
  .BR update\-alternatives '
  state information.
-diff --git a/utils/update-alternatives.c b/utils/update-alternatives.c
-index f416bfd..38d7ae5 100644
---- a/utils/update-alternatives.c
-+++ b/utils/update-alternatives.c
-@@ -70,7 +70,7 @@ static int opt_absolute = 0;
- static char *pass_opts[MAX_OPTS];
- static int nb_opts = 0;
+@@ -392,7 +392,7 @@
+ .B \-\-altdir
+ option.
+ .TP
+-.I /var/lib/dpkg/alternatives/
++.I /var/lib/rpm/alternatives/
+ The default administration directory.
+ Can be overridden by the
+ .B \-\-admindir
+diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-alternatives.c
+--- dpkg-1.18.4/utils/update-alternatives.c	2015-12-12 20:50:44.000000000 +0000
++++ dpkg-1.18.4.tpg/utils/update-alternatives.c	2016-02-06 23:35:44.919615860 +0000
+@@ -63,7 +63,7 @@
+ static int opt_verbose = 0;
+ static int opt_force = 0;
  
 -#define ALT_TMP_EXT ".dpkg-tmp"
 +#define ALT_TMP_EXT ".rpm-tmp"
  
  /*
   * Functions.
-@@ -79,7 +79,7 @@ static int nb_opts = 0;
+@@ -72,7 +72,7 @@
  static void
  version(void)
  {
@@ -60,9 +67,9 @@ index f416bfd..38d7ae5 100644
  	printf("\n");
  
  	printf(_(
-@@ -365,7 +365,7 @@ admindir_init(void)
+@@ -354,7 +354,7 @@
+ {
  	const char *basedir, *dpkg_basedir;
- 	char *admindir;
  
 -	dpkg_basedir = getenv("DPKG_ADMINDIR");
 +	dpkg_basedir = getenv("RPM_ADMINDIR");
