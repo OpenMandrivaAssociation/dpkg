@@ -6,8 +6,8 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.17.24
-Release:	2
+Version:	1.18.4
+Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -34,7 +34,7 @@ to install the developers' package `dpkg-dev' as well as this one.
 
 dpkg-dev is not provided on your %{distribution} system.
 
-%package -n	perl-Dpkg
+%package -n perl-Dpkg
 Summary:	Package maintenance system for Debian Linux
 Group:		Development/Perl
 BuildArch:	noarch
@@ -42,7 +42,7 @@ BuildArch:	noarch
 %description -n	perl-Dpkg
 This module provides dpkg functionalities.
 
-%package -n	update-alternatives
+%package -n update-alternatives
 Summary:	Alternative management system
 Group:		System/Configuration/Packaging
 # explicit file provides
@@ -68,26 +68,25 @@ particular preference.
 CONFIGURE_TOP="$PWD"
 mkdir -p update-alternatives
 pushd update-alternatives
-CFLAGS="%{optflags} -Os" \
-%configure2_5x \
+%configure \
 	--disable-dselect \
 	--disable-install-info \
 	--disable-start-stop-daemon \
 	--with-admindir=%{_localstatedir}/lib/rpm/
+
 %make -C lib/compat
 %make -C utils/
 popd
 
 mkdir -p dpkg
 pushd dpkg
-%configure2_5x \
+%configure \
 	--disable-dselect \
 	--disable-update-alternatives \
 	--with-admindir=%{_localstatedir}/lib/%{name} \
 	--with-zlib \
 	--with-bz2 \
 	--with-liblzma
-
 %make
 popd
 
@@ -158,4 +157,3 @@ ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localst
 %{_localstatedir}/lib/alternatives
 %dir %{_localstatedir}/lib/rpm/alternatives
 %ghost %{_localstatedir}/log/update-alternatives.log
-
