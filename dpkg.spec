@@ -17,7 +17,7 @@ Source3:	debsign.1
 Source4:	dpkg.rpmlintrc
 Patch0:		update-alternatives-1.17.4-mandriva.patch
 Patch1:		dpkg-1.17.10-update-alternatives-use-relative-symlinks.patch
-
+BuildRequires:	flex
 BuildRequires:	po4a
 BuildRequires:	bzip2-devel
 BuildRequires:	gettext-devel
@@ -105,7 +105,6 @@ install -d -m755 %{buildroot}%{_localstatedir}/log
 touch %{buildroot}%{_localstatedir}/log/update-alternatives.log
 
 install -m755 update-alternatives/utils/update-alternatives -D %{buildroot}%{_sbindir}/update-alternatives
-install -m644 man/update-alternatives.8 -D %{buildroot}%{_mandir}/man8/update-alternatives.8
 
 # I really doubt the actual usefulness of these..
 ln -s update-alternatives %{buildroot}%{_sbindir}/alternatives
@@ -153,7 +152,6 @@ ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localst
 %dir %{_sysconfdir}/alternatives
 %{_sbindir}/alternatives
 %{_sbindir}/update-alternatives
-%{_mandir}/man8/update-alternatives.8*
 %{_localstatedir}/lib/alternatives
 %dir %{_localstatedir}/lib/rpm/alternatives
 %ghost %{_localstatedir}/log/update-alternatives.log
