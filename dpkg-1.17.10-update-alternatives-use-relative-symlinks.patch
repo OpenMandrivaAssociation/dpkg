@@ -1,6 +1,6 @@
 diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-alternatives.c
---- dpkg-1.18.4/utils/update-alternatives.c	2016-02-07 10:17:38.507612559 +0000
-+++ dpkg-1.18.4.tpg/utils/update-alternatives.c	2016-02-07 10:18:35.018123954 +0000
+--- dpkg-1.18.4/utils/update-alternatives.c	2016-02-07 11:07:23.036616107 +0000
++++ dpkg-1.18.4.tpg/utils/update-alternatives.c	2016-02-07 11:08:13.478967841 +0000
 @@ -27,6 +27,7 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -9,20 +9,21 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  
  #include <errno.h>
  #include <stdarg.h>
-@@ -62,7 +63,12 @@
+@@ -62,7 +63,13 @@
  static int opt_skip_auto = 0;
  static int opt_verbose = 0;
  static int opt_force = 0;
 +static int opt_absolute = 0;
-+static char *pass_opts[MAX_OPTS];
-+static int nb_opts = 0;
  
 +#define MAX_OPTS 128
++static char *pass_opts[MAX_OPTS];
++static int nb_opts = 0;
++
 +#define PUSH_OPT(a) if (nb_opts < MAX_OPTS) pass_opts[nb_opts++] = a;
  #define ALT_TMP_EXT ".rpm-tmp"
  
  /*
-@@ -127,6 +133,8 @@
+@@ -127,6 +134,8 @@
  "                           in automatic mode (relevant for --config only)\n"
  "  --verbose                verbose operation, more output.\n"
  "  --quiet                  quiet operation, minimal output.\n"
@@ -31,7 +32,7 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  "  --help                   show this help message.\n"
  "  --version                show the version.\n"
  ));
-@@ -429,11 +437,125 @@
+@@ -429,11 +438,125 @@
  	return false;
  }
  
@@ -159,7 +160,7 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  }
  
  static void
-@@ -2602,6 +2724,16 @@
+@@ -2602,6 +2725,16 @@
  			long prio;
  
  			set_action("install");
@@ -176,7 +177,7 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  			if (MISSING_ARGS(4))
  				badusage(_("--install needs <link> <name> "
  				           "<path> <priority>"));
-@@ -2655,6 +2787,18 @@
+@@ -2655,6 +2788,18 @@
  			   strcmp("--get-selections", argv[i]) == 0 ||
  			   strcmp("--set-selections", argv[i]) == 0) {
  			set_action(argv[i] + 2);
