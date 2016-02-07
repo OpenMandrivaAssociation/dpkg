@@ -130,7 +130,6 @@ ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localst
 %{_mandir}/man1/d*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-%exclude %{_mandir}/man8/update-alternatives.8*
 %lang(de) %{_mandir}/de/man?/*
 %lang(ja) %{_mandir}/ja/man?/*
 %lang(pl) %{_mandir}/pl/man?/*
