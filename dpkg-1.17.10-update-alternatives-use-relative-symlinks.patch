@@ -1,5 +1,6 @@
---- dpkg-1.17.10/utils/update-alternatives.c.0001~	2014-06-16 21:55:50.902141622 +0200
-+++ dpkg-1.17.10/utils/update-alternatives.c	2014-06-16 21:57:30.483009877 +0200
+diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-alternatives.c
+--- dpkg-1.18.4/utils/update-alternatives.c	2016-02-06 23:50:31.000000000 +0000
++++ dpkg-1.18.4.tpg/utils/update-alternatives.c	2016-02-07 00:10:27.247636603 +0000
 @@ -27,6 +27,7 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -8,15 +9,15 @@
  
  #include <errno.h>
  #include <stdarg.h>
-@@ -62,6 +63,7 @@ static const char *log_file = LOGDIR "/a
+@@ -62,6 +63,7 @@
  static int opt_skip_auto = 0;
  static int opt_verbose = 0;
  static int opt_force = 0;
 +static int opt_absolute = 0;
  
- #define MAX_OPTS 128
- #define PUSH_OPT(a) if (nb_opts < MAX_OPTS) pass_opts[nb_opts++] = a;
-@@ -132,6 +134,8 @@ usage(void)
+ #define ALT_TMP_EXT ".rpm-tmp"
+ 
+@@ -127,6 +129,8 @@
  "                           in automatic mode (relevant for --config only)\n"
  "  --verbose                verbose operation, more output.\n"
  "  --quiet                  quiet operation, minimal output.\n"
@@ -25,7 +26,7 @@
  "  --help                   show this help message.\n"
  "  --version                show the version.\n"
  ));
-@@ -474,11 +478,125 @@ rename_mv(const char *src, const char *d
+@@ -429,11 +433,125 @@
  	return false;
  }
  
@@ -118,8 +119,8 @@
 +                for (l++; realfrom[l] && realfrom[l] != '/'; l++) ;
 +
 +        /* skip next '/' */
-+	if (realfrom[l] == '/')
-+		l++;
++       if (realfrom[l] == '/')
++               l++;
 +
 +        /* append the uncommon rest of realfrom to the relative_from path */
 +        for (i = level; i <= fromlevel; i++) {
@@ -139,21 +140,21 @@
  checked_symlink(const char *filename, const char *linkname)
  {
 -	if (symlink(filename, linkname))
--		syserr(_("error creating symbolic link `%.255s'"), linkname);
-+	if (opt_absolute) {
-+		if (symlink(filename, linkname))
-+			syserr(_("error creating absolute symbolic link for `%.255s"), linkname);
-+	} else {
-+		char *source = convert_abs_rel(filename, linkname);
+-		syserr(_("error creating symbolic link '%.255s'"), linkname);
++       if (opt_absolute) {
++               if (symlink(filename, linkname))
++                       syserr(_("error creating absolute symbolic link for `%.255s"), linkname);
++       } else {
++               char *source = convert_abs_rel(filename, linkname);
 +
-+		if (symlink(source, linkname))
-+			syserr(_("error creating relative symbolic link `%.255s' for `%.255s"), source, linkname);
-+		free(source);
-+	}
++               if (symlink(source, linkname))
++                       syserr(_("error creating relative symbolic link `%.255s' for `%.255s"), source, linkname);
++               free(source);
++       }
  }
  
  static void
-@@ -2544,6 +2662,16 @@ main(int argc, char **argv)
+@@ -2602,6 +2720,16 @@
  			long prio;
  
  			set_action("install");
@@ -161,31 +162,31 @@
 +				opt_absolute = 1;
 +				i++;
 +				PUSH_OPT(argv[i]);
-+			} else if (strcmp("--relative", argv[i+1]) == 0) {
-+				opt_absolute = 0;
-+				i++;
-+				PUSH_OPT(argv[i]);
-+			}
++                        } else if (strcmp("--relative", argv[i+1]) == 0) {
++                    		opt_absolute = 0;
++                    		i++;
++                    		PUSH_OPT(argv[i]);
++                        }
 +
  			if (MISSING_ARGS(4))
  				badusage(_("--install needs <link> <name> "
  				           "<path> <priority>"));
-@@ -2597,6 +2725,18 @@ main(int argc, char **argv)
+@@ -2655,6 +2783,18 @@
  			   strcmp("--get-selections", argv[i]) == 0 ||
  			   strcmp("--set-selections", argv[i]) == 0) {
  			set_action(argv[i] + 2);
-+		} else if (strcmp("--absolute", argv[i]) == 0) {
-+			if (action == NULL ||
-+					(action && strcmp(action, "install") != 0))
-+				badusage(_("--absolute only allowed with --install"));
-+		    	opt_absolute = 1;
-+			i++;
-+		} else if (strcmp("--relative", argv[i]) == 0) {
-+			if (action == NULL ||
-+					(action && strcmp(action, "install") != 0))
-+				badusage(_("--relative only allowed with --install"));
-+		    	opt_absolute = 0;
-+			i++;
++                } else if (strcmp("--absolute", argv[i]) == 0) {
++                        if (action == NULL ||
++                                        (action && strcmp(action, "install") != 0))
++                                badusage(_("--absolute only allowed with --install"));
++                        opt_absolute = 1;
++                        i++;
++                } else if (strcmp("--relative", argv[i]) == 0) {
++                        if (action == NULL ||
++                                        (action && strcmp(action, "install") != 0))
++                                badusage(_("--relative only allowed with --install"));
++                        opt_absolute = 0;
++                        i++;
  		} else if (strcmp("--slave", argv[i]) == 0) {
  			char *slink, *sname, *spath;
  			struct slave_link *sl;
