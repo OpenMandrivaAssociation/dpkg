@@ -1,6 +1,6 @@
 diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-alternatives.c
---- dpkg-1.18.4/utils/update-alternatives.c	2016-02-06 23:50:31.000000000 +0000
-+++ dpkg-1.18.4.tpg/utils/update-alternatives.c	2016-02-07 00:10:27.247636603 +0000
+--- dpkg-1.18.4/utils/update-alternatives.c	2016-02-07 09:06:26.000000000 +0000
++++ dpkg-1.18.4.tpg/utils/update-alternatives.c	2016-02-07 09:08:14.140064420 +0000
 @@ -27,6 +27,7 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -9,15 +9,18 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  
  #include <errno.h>
  #include <stdarg.h>
-@@ -62,6 +63,7 @@
+@@ -62,7 +63,10 @@
  static int opt_skip_auto = 0;
  static int opt_verbose = 0;
  static int opt_force = 0;
 +static int opt_absolute = 0;
  
++#define MAX_OPTS 128
++#define PUSH_OPT(a) if (nb_opts < MAX_OPTS) pass_opts[nb_opts++] = a;
  #define ALT_TMP_EXT ".rpm-tmp"
  
-@@ -127,6 +129,8 @@
+ /*
+@@ -127,6 +131,8 @@
  "                           in automatic mode (relevant for --config only)\n"
  "  --verbose                verbose operation, more output.\n"
  "  --quiet                  quiet operation, minimal output.\n"
@@ -26,7 +29,7 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  "  --help                   show this help message.\n"
  "  --version                show the version.\n"
  ));
-@@ -429,11 +433,125 @@
+@@ -429,11 +435,125 @@
  	return false;
  }
  
@@ -154,7 +157,7 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  }
  
  static void
-@@ -2602,6 +2720,16 @@
+@@ -2602,6 +2722,16 @@
  			long prio;
  
  			set_action("install");
@@ -171,7 +174,7 @@ diff -Naur dpkg-1.18.4/utils/update-alternatives.c dpkg-1.18.4.tpg/utils/update-
  			if (MISSING_ARGS(4))
  				badusage(_("--install needs <link> <name> "
  				           "<path> <priority>"));
-@@ -2655,6 +2783,18 @@
+@@ -2655,6 +2785,18 @@
  			   strcmp("--get-selections", argv[i]) == 0 ||
  			   strcmp("--set-selections", argv[i]) == 0) {
  			set_action(argv[i] + 2);
