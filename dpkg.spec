@@ -7,7 +7,7 @@
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.18.4
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -15,8 +15,9 @@ Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source2:	debsign.sh
 Source3:	debsign.1
 Source4:	dpkg.rpmlintrc
-Patch0:		update-alternatives-1.17.4-mandriva.patch
-Patch1:		dpkg-1.17.10-update-alternatives-use-relative-symlinks.patch
+# (tpg) not needed as it got obsoleted by chkconfig implementation
+#Patch0:		update-alternatives-1.17.4-mandriva.patch
+#Patch1:		dpkg-1.17.10-update-alternatives-use-relative-symlinks.patch
 BuildRequires:	flex
 BuildRequires:	po4a
 BuildRequires:	bzip2-devel
@@ -42,44 +43,11 @@ BuildArch:	noarch
 %description -n	perl-Dpkg
 This module provides dpkg functionalities.
 
-%package -n update-alternatives
-Summary:	Alternative management system
-Group:		System/Configuration/Packaging
-# explicit file provides
-Provides:	%{_sbindir}/alternatives
-Provides:	%{_sbindir}/update-alternatives
-
-%description -n	update-alternatives
-update-alternatives creates, removes, maintains and displays
-information about the symbolic links comprising the alternatives
-system. It is possible for several programs fulfilling the same or
-similar functions to be installed on a single system at the same time.
-For example, many systems have several text editors installed at once.
-This gives choice to the users of a system, allowing each to use a
-different editor, if desired, but makes it difficult for a program to
-make a good choice of editor to invoke if the user has not specified a
-particular preference.
-
 %prep
 %setup -q
 %apply_patches
 
 %build
-CONFIGURE_TOP="$PWD"
-mkdir -p update-alternatives
-pushd update-alternatives
-%configure \
-	--disable-dselect \
-	--disable-install-info \
-	--disable-start-stop-daemon \
-	--with-admindir=%{_localstatedir}/lib/rpm/
-
-%make -C lib/compat
-%make -C utils/
-popd
-
-mkdir -p dpkg
-pushd dpkg
 %configure \
 	--disable-dselect \
 	--disable-update-alternatives \
@@ -88,27 +56,14 @@ pushd dpkg
 	--with-bz2 \
 	--with-liblzma
 %make
-popd
 
 %install
-%makeinstall_std -C dpkg
+%makeinstall_std
 
 install -m755 %{SOURCE2} -D %{buildroot}%{_bindir}/debsign
 install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 
 %find_lang %{name} dpkg-dev %{name}.lang
-
-install -d -m755 %{buildroot}%{_sysconfdir}/alternatives
-install -d -m755 %{buildroot}%{_localstatedir}/lib/rpm/alternatives
-install -d -m755 %{buildroot}%{_localstatedir}/log
-
-touch %{buildroot}%{_localstatedir}/log/update-alternatives.log
-
-install -m755 update-alternatives/utils/update-alternatives -D %{buildroot}%{_sbindir}/update-alternatives
-
-# I really doubt the actual usefulness of these..
-ln -s update-alternatives %{buildroot}%{_sbindir}/alternatives
-ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localstatedir}/lib/alternatives
 
 %files -f %{name}.lang
 %{_bindir}/d*
@@ -116,8 +71,6 @@ ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localst
 %dir %{_libdir}/%{name}/parsechangelog
 %dir %{_libdir}/%{name}/parsechangelog/debian
 %{_sbindir}/*
-%exclude %{_sbindir}/alternatives
-%exclude %{_sbindir}/update-alternatives
 %dir %{_datadir}/%{name}
 %dir %{_localstatedir}/lib/%{name}
 %{_datadir}/%{name}/cputable
@@ -146,11 +99,3 @@ ln -sr %{buildroot}%{_localstatedir}/lib/rpm/alternatives %{buildroot}%{_localst
 %files -n perl-Dpkg
 %{perl_vendorlib}/Dpkg
 %{perl_vendorlib}/Dpkg.pm
-
-%files -n update-alternatives
-%dir %{_sysconfdir}/alternatives
-%{_sbindir}/alternatives
-%{_sbindir}/update-alternatives
-%{_localstatedir}/lib/alternatives
-%dir %{_localstatedir}/lib/rpm/alternatives
-%ghost %{_localstatedir}/log/update-alternatives.log
