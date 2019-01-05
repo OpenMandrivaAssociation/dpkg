@@ -69,7 +69,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_bindir}/d*
 %dir %{_libdir}/%{name}
 %dir %{_libdir}/%{name}/parsechangelog
-#dir #{_libdir}/%{name}/parsechangelog/debian
+%{_libdir}/%{name}/parsechangelog/debian
 %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %dir %{_localstatedir}/lib/%{name}
