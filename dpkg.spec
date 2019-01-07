@@ -64,15 +64,15 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 
 %files -f %{name}.lang
 %{_bindir}/d*
-%dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/parsechangelog
-%{_libdir}/%{name}/parsechangelog/debian
+#dir #{_libdir}/%{name}
+#dir #{_libdir}/%{name}/parsechangelog
+#{_libdir}/%{name}/parsechangelog/debian
 %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %dir %{_localstatedir}/lib/%{name}
 %{_datadir}/%{name}/cputable
 %{_datadir}/%{name}/ostable
-%{_datadir}/%{name}/triplettable
+#{_datadir}/%{name}/triplettable
 %{_datadir}/dpkg/abitable
 %{_datadir}/%{name}/*.mk
 %{_localstatedir}/lib/%{name}/*
@@ -85,7 +85,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %lang(pl) %{_mandir}/pl/man?/*
 %lang(sv) %{_mandir}/sv/man?/*
 %lang(fr) %{_mandir}/fr/man?/*
-%lang(hu) %{_mandir}/hu/man?/*
+#lang(hu) #{_mandir}/hu/man?/*
 %lang(it) %{_mandir}/it/man?/*
 %lang(es) %{_mandir}/es/man?/*
 %{_includedir}/dpkg/*
