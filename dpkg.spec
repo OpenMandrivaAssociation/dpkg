@@ -1,13 +1,9 @@
-%if %{_use_internal_dependency_generator}
-%define __noautoreq 'perl\\(controllib.pl\\)|perl\\(file\\)'
-%else
-%define _requires_exceptions perl(controllib.pl)\\|perl(file)
-%endif
+%global __requires_exclude perl\\((extra|file|in|--format)\\)
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
 Version:	1.18.4
-Release:	3
+Release:	4
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
