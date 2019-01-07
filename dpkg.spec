@@ -2,8 +2,8 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.18.4
-Release:	4
+Version:	1.19.2
+Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
