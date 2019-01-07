@@ -21,6 +21,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	gnutar
 
 %description
 This package contains the programs dpkg which used to handle the installation
