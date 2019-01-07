@@ -82,17 +82,18 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_datadir}/%{name}/*.mk
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
-#{_mandir}/man1/d*
-#{_mandir}/man5/*
-#{_mandir}/man8/*
-#lang(de) #{_mandir}/de/man?/*
-#lang(ja) #{_mandir}/ja/man?/*
-#lang(pl) #{_mandir}/pl/man?/*
-#lang(sv) #{_mandir}/sv/man?/*
-#lang(fr) #{_mandir}/fr/man?/*
-#lang(hu) #{_mandir}/hu/man?/*
-#lang(it) #{_mandir}/it/man?/*
-#lang(es) #{_mandir}/es/man?/*
+%{_mandir}/man1/d*
+%{_mandir}/man5/*
+%{_mandir}/man8/*
+%lang(de) %{_mandir}/de/man?/*
+%lang(ja) %{_mandir}/ja/man?/*
+%lang(pl) %{_mandir}/pl/man?/*
+%lang(sv) %{_mandir}/sv/man?/*
+%lang(fr) %{_mandir}/fr/man?/*
+%lang(hu) %{_mandir}/hu/man?/*
+%lang(it) %{_mandir}/it/man?/*
+%lang(es) %{_mandir}/es/man?/*
+%lang(nl) %{_mandir}/nl/man?/*
 %{_includedir}/dpkg/*
 %{_mandir}/man*/*
 %{_libdir}/libdpkg.a
