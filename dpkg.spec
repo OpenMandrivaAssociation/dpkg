@@ -94,7 +94,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 #lang(it) #{_mandir}/it/man?/*
 #lang(es) #{_mandir}/es/man?/*
 %{_includedir}/dpkg/*
-%{_mandir}/man?/*
+%{_mandir}/man*
 %{_libdir}/libdpkg.a
 %{_libdir}/pkgconfig/libdpkg.pc
 
