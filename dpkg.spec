@@ -90,7 +90,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %lang(pl) %{_mandir}/pl/man?/*
 %lang(sv) %{_mandir}/sv/man?/*
 %lang(fr) %{_mandir}/fr/man?/*
-%lang(hu) %{_mandir}/hu/man?/*
+#lang(hu) #{_mandir}/hu/man?/*
 %lang(it) %{_mandir}/it/man?/*
 %lang(es) %{_mandir}/es/man?/*
 %lang(nl) %{_mandir}/nl/man?/*
