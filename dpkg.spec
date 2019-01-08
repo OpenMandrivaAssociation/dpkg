@@ -2,8 +2,8 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.18.4
-Release:	4
+Version:	1.19.2
+Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
 Url:		http://packages.debian.org/unstable/base/dpkg.html
@@ -21,6 +21,7 @@ BuildRequires:	gettext-devel
 BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(zlib)
+BuildRequires:	gnutar
 
 %description
 This package contains the programs dpkg which used to handle the installation
@@ -63,16 +64,21 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 
 %files -f %{name}.lang
 %{_bindir}/d*
-%dir %{_libdir}/%{name}
-%dir %{_libdir}/%{name}/parsechangelog
-%{_libdir}/%{name}/parsechangelog/debian
+#dir #{_libdir}/%{name}
+#dir #{_libdir}/%{name}/parsechangelog
+#{_libdir}/%{name}/parsechangelog/debian
 %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %dir %{_localstatedir}/lib/%{name}
 %{_datadir}/%{name}/cputable
 %{_datadir}/%{name}/ostable
-%{_datadir}/%{name}/triplettable
+#{_datadir}/%{name}/triplettable
 %{_datadir}/dpkg/abitable
+%{_datadir}/%{name}/no-pie-compile.specs
+%{_datadir}/%{name}/no-pie-link.specs
+%{_datadir}/%{name}/pie-compile.specs
+%{_datadir}/%{name}/pie-link.specs
+%{_datadir}/%{name}/tupletable
 %{_datadir}/%{name}/*.mk
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
@@ -84,11 +90,12 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %lang(pl) %{_mandir}/pl/man?/*
 %lang(sv) %{_mandir}/sv/man?/*
 %lang(fr) %{_mandir}/fr/man?/*
-%lang(hu) %{_mandir}/hu/man?/*
+#lang(hu) #{_mandir}/hu/man?/*
 %lang(it) %{_mandir}/it/man?/*
 %lang(es) %{_mandir}/es/man?/*
+%lang(nl) %{_mandir}/nl/man?/*
 %{_includedir}/dpkg/*
-%{_mandir}/man3/*
+%{_mandir}/man*/*
 %{_libdir}/libdpkg.a
 %{_libdir}/pkgconfig/libdpkg.pc
 
