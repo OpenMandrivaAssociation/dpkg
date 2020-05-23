@@ -2,7 +2,7 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.19.4
+Version:	1.20.0
 Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
@@ -52,10 +52,10 @@ This module provides dpkg functionalities.
 	--with-zlib \
 	--with-bz2 \
 	--with-liblzma
-%make
+%make_build
 
 %install
-%makeinstall_std
+%make_install
 
 install -m755 %{SOURCE2} -D %{buildroot}%{_bindir}/debsign
 install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
