@@ -99,6 +99,6 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_libdir}/libdpkg.a
 %{_libdir}/pkgconfig/libdpkg.pc
 
-%files -n perl-Dpkg
-%{perl_vendorlib}/Dpkg
-%{perl_vendorlib}/Dpkg.pm
+#files -n perl-Dpkg
+#{perl_vendorlib}/Dpkg
+#{perl_vendorlib}/Dpkg.pm
