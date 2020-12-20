@@ -63,6 +63,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %find_lang %{name} dpkg-dev %{name}.lang
 
 %files -f %{name}.lang
+%doc %{_docdir}/dpkg/*
 %{_bindir}/d*
 #dir #{_libdir}/%{name}
 #dir #{_libdir}/%{name}/parsechangelog
@@ -80,6 +81,8 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_datadir}/%{name}/pie-link.specs
 %{_datadir}/%{name}/tupletable
 %{_datadir}/%{name}/*.mk
+%{_datadir}/aclocal/*
+%{_datadir}/dpkg/sh/dpkg-error.sh
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
 %{_mandir}/man1/d*
@@ -90,7 +93,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %lang(pl) %{_mandir}/pl/man?/*
 %lang(sv) %{_mandir}/sv/man?/*
 %lang(fr) %{_mandir}/fr/man?/*
-#lang(hu) #{_mandir}/hu/man?/*
+%lang(hu) %{_mandir}/hu/man?/*
 %lang(it) %{_mandir}/it/man?/*
 %lang(es) %{_mandir}/es/man?/*
 %lang(nl) %{_mandir}/nl/man?/*
@@ -99,6 +102,5 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_libdir}/libdpkg.a
 %{_libdir}/pkgconfig/libdpkg.pc
 
-#files -n perl-Dpkg
-#{perl_vendorlib}/Dpkg
-#{perl_vendorlib}/Dpkg.pm
+%files -n perl-Dpkg
+%{_datadir}/perl5/vendor_perl/Dpkg*
