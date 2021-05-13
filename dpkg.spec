@@ -2,7 +2,7 @@
 
 Summary:	Package maintenance system for Debian Linux
 Name:		dpkg
-Version:	1.20.7.1
+Version:	1.20.9
 Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
