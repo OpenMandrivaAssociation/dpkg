@@ -83,8 +83,10 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_datadir}/%{name}/*.mk
 %{_datadir}/aclocal/*
 %{_datadir}/dpkg/sh/dpkg-error.sh
+%{_datadir}/zsh/vendor-completions/_dpkg-parsechangelog
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
+%{_libexecdir}/dpkg/dpkg-db-backup
 %{_mandir}/man1/d*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
