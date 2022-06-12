@@ -87,9 +87,6 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 %{_localstatedir}/lib/%{name}/*
 %dir %{_sysconfdir}/%{name}
 %{_libexecdir}/dpkg/dpkg-db-backup
-%{_mandir}/man1/d*
-%{_mandir}/man5/*
-%{_mandir}/man8/*
 %lang(de) %{_mandir}/de/man?/*
 %lang(ja) %{_mandir}/ja/man?/*
 %lang(pl) %{_mandir}/pl/man?/*
