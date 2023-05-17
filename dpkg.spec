@@ -65,7 +65,7 @@ install -m644 %{SOURCE3} -D %{buildroot}%{_mandir}/man1/debsign.1
 
 %files -f %{name}.lang
 %doc %{_docdir}/dpkg/*
-%{_bindir}/d*
+%{_bindir}/*
 #dir #{_libdir}/%{name}
 #dir #{_libdir}/%{name}/parsechangelog
 #{_libdir}/%{name}/parsechangelog/debian
