@@ -18,6 +18,7 @@ BuildRequires:	flex
 BuildRequires:	po4a
 BuildRequires:	bzip2-devel
 BuildRequires:	gettext-devel
+BuildRequires:	pkgconfig(libmd)
 BuildRequires:	pkgconfig(liblzma)
 BuildRequires:	pkgconfig(ncursesw)
 BuildRequires:	pkgconfig(zlib)
