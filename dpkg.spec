@@ -6,7 +6,7 @@ Version:	1.21.22
 Release:	1
 License:	GPLv2+
 Group:		System/Configuration/Packaging
-Url:		http://packages.debian.org/unstable/base/dpkg.html
+Url:		https://packages.debian.org/unstable/base/dpkg.html
 Source0:	ftp://ftp.debian.org/debian/pool/main/d/dpkg/%{name}_%{version}.tar.xz
 Source2:	debsign.sh
 Source3:	debsign.1
