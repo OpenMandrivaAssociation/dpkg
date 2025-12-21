@@ -14,6 +14,11 @@ Source4:	dpkg.rpmlintrc
 # (tpg) not needed as it got obsoleted by chkconfig implementation
 #Patch0:		update-alternatives-1.17.4-mandriva.patch
 #Patch1:		dpkg-1.17.10-update-alternatives-use-relative-symlinks.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	flex
 BuildRequires:	po4a
 BuildRequires:	bzip2-devel
